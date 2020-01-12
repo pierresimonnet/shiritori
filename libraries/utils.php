@@ -9,10 +9,10 @@ function render(string $path, array $variables = [])
     extract($variables);
 
     ob_start();
-    require("templates/pages/".$path.".html.php");
+    require(dirname(__DIR__).DIRECTORY_SEPARATOR."templates/pages/".$path.".html.php");
     $pageContent = ob_get_clean();
 
-    require_once 'templates/layout.html.php';
+    require_once dirname(__DIR__).DIRECTORY_SEPARATOR."templates/layout.html.php";
 }
 
 function redirect(string $url): void

@@ -5,7 +5,7 @@ namespace Controllers;
 use JishoAPI;
 use Models\Word;
 
-require_once "libraries/utils.php";
+require_once dirname(__DIR__).DIRECTORY_SEPARATOR."/utils.php";
 
 class WordController extends Controller
 {
