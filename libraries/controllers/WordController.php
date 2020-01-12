@@ -24,6 +24,7 @@ class WordController extends Controller
         $lastEntrySplit = preg_split("//u", $lastEntry->word, -1, PREG_SPLIT_NO_EMPTY);
         $lastEntryLastChar = end($lastEntrySplit);
         $pattern = "/[a-zA-Z0-9０-９あ-んア-ンー。、？！＜＞： 「」（）｛｝≪≫〈〉《》【】『』〔〕［］・\n\r\t\s\(\)　]/u";
+        $error = "";
 
         if(isset($_POST['submit'])){
             if(isset($_POST['input']) && !empty($_POST['input'])){
@@ -53,6 +54,7 @@ class WordController extends Controller
                     if ($result === true){
                         $this->model->insert($input);
                         $success = "$input a bien été ajouté.";
+                        $_SESSION['success'] = $success;
                     }else{
                         $error = "ブー！Le mot $input n'existe pas.";
                     }
@@ -61,6 +63,10 @@ class WordController extends Controller
             }else{
                 $error = "Le champ est vide.";
             }
+        }
+
+        if($error){
+            $_SESSION['error'] = $error;
         }
 
         redirect("index.php");
@@ -72,6 +78,7 @@ class WordController extends Controller
         }
         $this->model->reset();
         $success = "Le shiritori a bien été supprimé.";
+        $_SESSION['success'] = $success;
 
         redirect("index.php");
     }

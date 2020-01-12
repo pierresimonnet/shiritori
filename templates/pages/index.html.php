@@ -5,14 +5,16 @@
 </header>
 <main class="container">
     <section class="form">
-        <?php if($error) :?>
+        <?php if($_SESSION['error']) :?>
             <section class="alert error" id="alert">
-                <?= $error ?>
+                <?= $_SESSION['error'] ?>
+                <?php unset($_SESSION['error']) ?>
             </section>
         <?php endif; ?>
-        <?php if($success) :?>
+        <?php if($_SESSION['success']) :?>
             <section class="alert success" id="success">
-                <?= $success ?>
+                <?= $_SESSION['success'] ?>
+                <?php unset($_SESSION['success']) ?>
             </section>
         <?php endif; ?>
         <form action="index.php?controller=word&task=insert" method="POST" id="form" autocomplete="off" class="play">
