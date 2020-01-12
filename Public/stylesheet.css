@@ -1,0 +1,111 @@
+html{
+    scroll-behavior: smooth;
+    height: 100%;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body{
+    background-color: #d7d7d7;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+header{
+    text-align: center;
+}
+
+header p{
+    margin: .5rem 0;
+}
+
+.example_kanji{
+    background-color: #ffffff;
+    border-radius: 50%;
+    padding: .2rem;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
+}
+
+.alert{
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.error{
+    background-color: #ff5d3e;
+    padding: .4rem;
+}
+
+.success{
+    background-color: #41f085;
+    padding: .4rem;
+}
+
+.form{
+    margin: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input{
+    padding: .4rem;
+    border: none;
+    font-size: 1rem;
+    border-radius: 8px;
+}
+
+input:focus{
+    outline: none;
+}
+
+input[name='submit']{
+    background-color: #ff4f5a;
+    color: white;
+}
+
+.string{
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.76) rgba(0,0,0,0);
+    font-size: 1.4rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.string p{
+    white-space: nowrap;
+}
+
+.start{
+    text-align: center;
+    font-size: 1rem;
+}
+
+.help{
+    margin-top: 1rem;
+}
+
+.reset{
+    text-align: center;
+    margin-top: 1rem;
+}
+
+footer{
+    margin-top: 2rem;
+}
