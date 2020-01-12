@@ -5,6 +5,16 @@ require_once "JishoAPI.php";
 $bdd = new PDO('mysql:host=127.0.0.1;dbname=shiritori', 'root', 'root', [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
 ]);
+
+// Récupération des données d'origine
+try {
+    $response = $bdd->query("SELECT * FROM list");
+    $data = $response->fetchAll();
+    $response->closeCursor();
+} catch (PDOException $e) {
+    echo $e->getMessage();
+}
+
 // Envoi formulaire
 $pattern = "/[a-zA-Z0-9０-９あ-んア-ンー。、？！＜＞： 「」（）｛｝≪≫〈〉《》【】『』〔〕［］・\n\r\t\s\(\)　]/u";
 
@@ -25,11 +35,11 @@ if(isset($_POST['submit'])){
         elseif(mb_strlen($input) < 2 || mb_strlen($input) > 2)
         {
             $error = "ブー！$input comprend ". mb_strlen($input). " kanjis. Le mot doit faire 2 kanjis.";
-        }elseif($input === $lastEntry->word)
+        }elseif(!empty($data) && $input === $lastEntry->word)
         {
             $error = "ブー！Le mot $input est identique au mot précédemment saisi ($lastEntry->word).";
         }
-        elseif($lastEntryLastChar !== $inputFirstChar)
+        elseif(!empty($data) && $lastEntryLastChar !== $inputFirstChar)
         {
             $error = "ブー！Le premier kanji de $input ($inputFirstChar) ne correspond pas au dernier kanji de $lastEntry->word ($lastEntryLastChar).";
         }else{
@@ -40,6 +50,7 @@ if(isset($_POST['submit'])){
             if ($result === true){
                 $req = $bdd->prepare("INSERT INTO list(word) VALUES (:input)");
                 $req->execute(['input' => $input]);
+                $req->closeCursor();
                 $success = "$input a bien été ajouté.";
             }else{
                 $error = "ブー！Le mot $input n'existe pas.";
@@ -51,10 +62,16 @@ if(isset($_POST['submit'])){
     }
 }
 
-// Récupération des données
+if(isset($_POST['reset'])){
+    $req = $bdd->exec('TRUNCATE TABLE list');
+    $success = "Le shiritori a bien été supprimé.";
+}
+
+// Récupération des données mise à jour
 try {
-    $reponse = $bdd->query("SELECT * FROM list");
-    $data = $reponse->fetchAll();
+    $response = $bdd->query("SELECT * FROM list");
+    $data = $response->fetchAll();
+    $response->closeCursor();
 } catch (PDOException $e) {
     echo $e->getMessage();
 }
@@ -96,19 +113,19 @@ try {
         <section class="string">
             <?php foreach ($data as $kanji) echo "<p>" . $kanji->word . " &#62; </p>"?>
         </section>
+        <section>
+            <form action="" method="post" class="reset">
+                <input type="submit" name="reset" value="Reset">
+            </form>
+        </section>
         <?php else: ?>
         <section>
             <p class="start">Envoyez un mot pour commencer un nouveau shiritori.</p>
         </section>
         <?php endif; ?>
-        <section>
-            <p class="help">Besoin d'aide ? Trouvez un mot sur <a href="https://jisho.org/" target="_blank">Jisho.org</a> !</p>
-            <form action="" method="post" class="reset">
-                <input type="submit" name="reset" value="Reset">
-            </form>
-        </section>
     </main>
     <footer>
+        <p class="help">Besoin d'aide ? Trouvez un mot sur <a href="https://jisho.org/" target="_blank">Jisho.org</a> !</p>
         <p><em>Become the kanji master !</em></p>
     </footer>
 </body>
