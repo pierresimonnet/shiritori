@@ -1,5 +1,63 @@
 <?php
+require_once "JishoAPI.php";
 
+// Connexion BDD
+$bdd = new PDO('mysql:host=127.0.0.1;dbname=shiritori', 'root', 'root', [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
+]);
+// Envoi formulaire
+$pattern = "/[a-zA-Z0-9０-９あ-んア-ンー。、？！＜＞： 「」（）｛｝≪≫〈〉《》【】『』〔〕［］・\n\r\t\s\(\)　]/u";
+
+$lastEntry = $bdd->query("SELECT id, word FROM list ORDER BY id DESC LIMIT 1")->fetch();
+$lastEntrySplit = preg_split("//u", $lastEntry->word, -1, PREG_SPLIT_NO_EMPTY);
+$lastEntryLastChar = end($lastEntrySplit);
+
+if(isset($_POST['submit'])){
+    if(isset($_POST['input']) && !empty($_POST['input'])){
+        $input = trim(htmlentities($_POST['input']));
+        $inputSplit = preg_split("//u", $input, -1, PREG_SPLIT_NO_EMPTY);
+        $inputFirstChar = reset($inputSplit);
+
+        if(preg_match($pattern, $input))
+        {
+            $error = "ブー！Le mot doit être écrit en kanji.";
+        }
+        elseif(mb_strlen($input) < 2 || mb_strlen($input) > 2)
+        {
+            $error = "ブー！$input comprend ". mb_strlen($input). " kanjis. Le mot doit faire 2 kanjis.";
+        }elseif($input === $lastEntry->word)
+        {
+            $error = "ブー！Le mot $input est identique au mot précédemment saisi ($lastEntry->word).";
+        }
+        elseif($lastEntryLastChar !== $inputFirstChar)
+        {
+            $error = "ブー！Le premier kanji de $input ($inputFirstChar) ne correspond pas au dernier kanji de $lastEntry->word ($lastEntryLastChar).";
+        }else{
+            // Recherche du mot dans le dictionnaire
+            $jishoApi = new JishoAPI();
+            $result = $jishoApi->getJisho($input);
+
+            if ($result === true){
+                $req = $bdd->prepare("INSERT INTO list(word) VALUES (:input)");
+                $req->execute(['input' => $input]);
+                $success = "$input a bien été ajouté.";
+            }else{
+                $error = "ブー！Le mot $input n'existe pas.";
+            }
+
+        }
+    }else{
+        $error = "Le champ est vide.";
+    }
+}
+
+// Récupération des données
+try {
+    $reponse = $bdd->query("SELECT * FROM list");
+    $data = $reponse->fetchAll();
+} catch (PDOException $e) {
+    echo $e->getMessage();
+}
 ?>
 <!doctype html>
 <html lang="fr">
@@ -19,20 +77,30 @@
     </header>
     <main class="container">
         <section class="form">
-            <section class="alert" id="alert">
+            <?php if($error) :?>
+            <section class="alert error" id="alert">
+                <?= $error ?>
             </section>
-            <form action="" method="post" id="form" autocomplete="off" class="play">
+            <?php endif; ?>
+            <?php if($success) :?>
+                <section class="alert success" id="success">
+                    <?= $success ?>
+                </section>
+            <?php endif; ?>
+            <form action="" method="POST" id="form" autocomplete="off" class="play">
                 <input type="text" name="input">
                 <input type="submit" name="submit" id="submit" value="Envoyer">
             </form>
         </section>
+        <?php if($data) :?>
         <section class="string">
-            <p>Thread des kanjis ici...</p>
-            <p>漢字&#62;</p><p>漢字&#62;</p><p>漢字&#62;</p><p>漢字&#62;</p><p>漢字&#62;</p><p>漢字&#62;</p>
+            <?php foreach ($data as $kanji) echo "<p>" . $kanji->word . " &#62; </p>"?>
         </section>
+        <?php else: ?>
         <section>
-            <p class="start">Envoyez un mot pour commencer</p>
+            <p class="start">Envoyez un mot pour commencer un nouveau shiritori.</p>
         </section>
+        <?php endif; ?>
         <section>
             <p class="help">Besoin d'aide ? Trouvez un mot sur <a href="https://jisho.org/" target="_blank">Jisho.org</a> !</p>
             <form action="" method="post" class="reset">
