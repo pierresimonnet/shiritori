@@ -1,0 +1,1 @@
+#A kanji version of the Japanese word game しりとり (shiritori)
