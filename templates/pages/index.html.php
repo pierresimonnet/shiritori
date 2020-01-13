@@ -18,7 +18,7 @@
             </section>
         <?php endif; ?>
         <form action="index.php?controller=word&task=insert" method="POST" id="form" autocomplete="off" class="play">
-            <input type="text" name="input">
+            <input type="text" name="input" autofocus>
             <input type="submit" name="submit" id="submit" value="Envoyer">
         </form>
     </section>
