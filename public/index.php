@@ -1,12 +1,6 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
 session_start();
 
-require '../libraries/Autoloader.php';
-Autoloader::register();
-
-use App\App;
+require_once dirname(__DIR__).DIRECTORY_SEPARATOR."libraries/autoload.php";
 
 App::process();

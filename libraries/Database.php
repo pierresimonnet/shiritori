@@ -8,7 +8,7 @@ class Database
     public static function getPdo(): PDO
     {
         try {
-            return new PDO('mysql:host=nakayoicej028.mysql.db;dbname=nakayoicej028', 'nakayoicej028', '5V6ZLRy5CX3mks7', [
+            return new PDO('mysql:host=127.0.0.1;dbname=shiritori', 'root', 'root', [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
             ]);
         } catch (PDOException $e) {
