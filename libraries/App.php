@@ -14,7 +14,7 @@ class App
             $task = htmlentities($_GET['task']);
         }
 
-        $controllerName = "\Controllers\\" . $controllerName."Controller";
+        $controllerName = "\controllers\\" . $controllerName."Controller";
         $controller = new $controllerName();
         $controller->$task();
     }
