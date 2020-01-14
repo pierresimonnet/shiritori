@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 
 session_start();
 
-require_once "../libraries/autoload.php";
+require_once dirname(__DIR__).DIRECTORY_SEPARATOR."libraries/autoload.php";
 
 App::process();
 ?>
