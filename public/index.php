@@ -7,4 +7,6 @@ session_start();
 require '../libraries/Autoloader.php';
 Autoloader::register();
 
+use App\App;
+
 App::process();
