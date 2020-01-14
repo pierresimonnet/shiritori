@@ -4,9 +4,7 @@ error_reporting(E_ALL);
 
 session_start();
 
-require_once "../libraries/autoload.php";
+require '../libraries/Autoloader.php';
+Autoloader::register();
 
 App::process();
-?>
-<h1>COUCOU !</h1>
-<?php echo "bienvenue"; ?>
