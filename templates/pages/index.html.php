@@ -39,5 +39,15 @@
 </main>
 <footer>
     <p class="help">Besoin d'aide ? Trouvez un mot sur <a href="https://jisho.org/" target="_blank">Jisho.org</a> !</p>
+    <p><a href="https://www.kanpai.fr/apprendre-japonais/comment-ecrire-clavier-japonais" target="_blank">Écrire en japonais</a> (kanpai.fr)</p>
     <p><em>Become the kanji master !</em></p>
 </footer>
+
+<script>
+    window.addEventListener('load', function(){
+        if(document.getElementsByClassName('string')[0].scrollLeftMax !== 0){
+            document.getElementsByClassName('string')[0].scrollLeft = document.getElementsByClassName('string')[0].scrollLeftMax
+        }
+    }, false)
+</script>
+
