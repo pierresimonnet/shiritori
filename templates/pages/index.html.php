@@ -43,6 +43,7 @@
     <p><em>Become the kanji master !</em></p>
 </footer>
 
+<script src="js/app.js"></script>
 <script>
     window.addEventListener('load', function(){
         if(document.getElementsByClassName('string')[0].scrollLeftMax !== 0){
