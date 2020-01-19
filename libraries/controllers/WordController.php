@@ -13,8 +13,11 @@ class WordController extends Controller
 
     public function index(){
         $data = $this->model->findAll();
+        if ($this->isAjax()){
+            echo json_encode($data);
+            die();
+        }
         $pageTitle = "Kanji Shiritori";
-
         render("index", compact("pageTitle", "data"));
     }
 
@@ -26,8 +29,8 @@ class WordController extends Controller
         $pattern = "/[a-zA-Z0-9０-９あ-んア-ンー。、？！＜＞： 「」（）｛｝≪≫〈〉《》【】『』〔〕［］・\n\r\t\s\(\)　]/u";
         $error = "";
 
-        if(isset($_POST['submit'])){
-            if(isset($_POST['input']) && !empty($_POST['input'])){
+        if(isset($_POST['input'])){
+            if(!empty($_POST['input'])){
                 $input = trim(htmlentities($_POST['input']));
                 $inputSplit = preg_split("//u", $input, -1, PREG_SPLIT_NO_EMPTY);
                 $inputFirstChar = reset($inputSplit);
@@ -54,6 +57,10 @@ class WordController extends Controller
                     if ($result === true){
                         $this->model->insert($input);
                         $success = "$input a bien été ajouté.";
+                        if($this->isAjax()){
+                            echo json_encode(['status' => "success", 'message' => $success]);
+                            die();
+                        }
                         $_SESSION['success'] = $success;
                     }else{
                         $error = "ブー！Le mot $input n'existe pas.";
@@ -66,6 +73,11 @@ class WordController extends Controller
         }
 
         if($error){
+            if($this->isAjax()){
+                http_response_code(400);
+                echo json_encode(['status' => "error", 'message' => $error]);
+                die();
+            }
             $_SESSION['error'] = $error;
         }
 
@@ -73,11 +85,15 @@ class WordController extends Controller
     }
 
     public function reset(){
-        if(!isset($_POST['reset'])){
+        if(!isset($_POST['hiddenreset'])){
             die("Une erreur est survenue");
         }
         $this->model->reset();
         $success = "Le shiritori a bien été supprimé.";
+        if($this->isAjax()){
+            echo json_encode(['status' => "info", 'message' => $success]);
+            die();
+        }
         $_SESSION['success'] = $success;
 
         redirect("index.php");

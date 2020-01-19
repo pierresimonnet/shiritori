@@ -4,38 +4,41 @@
     <p>Exemple : 日<span class="example_kanji">本</span> &#62; <span class="example_kanji">本</span>気</p>
 </header>
 <main class="container">
-    <section class="form">
+    <section class="form-section" id="form-section">
+        <div class="alert" id="alert-section">
         <?php if($_SESSION['error']) :?>
-            <section class="alert error" id="alert">
+            <div class="error" id="alert">
                 <?= $_SESSION['error'] ?>
                 <?php unset($_SESSION['error']) ?>
-            </section>
+            </div>
         <?php endif; ?>
         <?php if($_SESSION['success']) :?>
-            <section class="alert success" id="success">
+            <div class="success" id="success">
                 <?= $_SESSION['success'] ?>
                 <?php unset($_SESSION['success']) ?>
-            </section>
+            </div>
         <?php endif; ?>
-        <form action="index.php?controller=word&task=insert" method="POST" id="form" autocomplete="off" class="play">
-            <input type="text" name="input" autofocus>
+        </div>
+        <form action="index.php?controller=word&task=insert" method="POST" id="post-form" autocomplete="off" class="play">
+            <input type="text" name="input" id="input" autofocus>
             <input type="submit" name="submit" id="submit" value="Envoyer">
         </form>
     </section>
+    <section class="string-section" id="string-section">
     <?php if($data) :?>
-        <section class="string">
+        <section class="string" id="string">
             <?php foreach ($data as $kanji) echo "<p>" . $kanji->word . " &#62; </p>"?>
         </section>
         <section>
-            <form action="index.php?controller=word&task=reset" method="post" class="reset">
-                <input type="submit" name="reset" value="Reset">
+            <form action="index.php?controller=word&task=reset" method="post" id="reset-form" class="reset">
+                <input type="hidden" name="hiddenreset">
+                <input type="submit" name="reset" id="reset" value="Reset">
             </form>
         </section>
     <?php else: ?>
-        <section>
-            <p class="start">Envoyez un mot pour commencer un nouveau shiritori.</p>
-        </section>
+        <p class="start">Envoyez un mot pour commencer un nouveau shiritori.</p>
     <?php endif; ?>
+    </section>
 </main>
 <footer>
     <p class="help">Besoin d'aide ? Trouvez un mot sur <a href="https://jisho.org/" target="_blank">Jisho.org</a> !</p>
@@ -46,8 +49,8 @@
 <script src="js/app.js"></script>
 <script>
     window.addEventListener('load', function(){
-        if(document.getElementsByClassName('string')[0].scrollLeftMax !== 0){
-            document.getElementsByClassName('string')[0].scrollLeft = document.getElementsByClassName('string')[0].scrollLeftMax
+        if(string && string.scrollLeftMax !== 0){
+            string.scrollLeft = document.getElementsByClassName('string')[0].scrollLeftMax
         }
     }, false)
 </script>
