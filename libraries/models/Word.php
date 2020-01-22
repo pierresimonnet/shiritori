@@ -13,8 +13,8 @@ class Word extends Model
 
     public function insert(string $input): void
     {
-        $query = $this->pdo->prepare("INSERT INTO word(word) VALUES (:input)");
-        $query->execute(['input' => $input]);
+        $query = $this->pdo->prepare("INSERT INTO word(word, shiritori_id) VALUES (:input, :shiritori) ");
+        $query->execute(['input' => $input, 'shiritori' => 13]);
         $query->closeCursor();
     }
 }
