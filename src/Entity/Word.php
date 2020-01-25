@@ -8,6 +8,7 @@ use App\Validator as AcmeAssert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\WordRepository")
+ * @Assert\GroupSequence({"Word", "1", "2", "3", "4", "5"})
  */
 class Word
 {
@@ -21,11 +22,11 @@ class Word
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Le champ est vide")
-     * @Assert\Length(2, exactMessage="Le mot doit faire exactement {{ limit }} kanjis")
-     * @AcmeAssert\ContainsKanji()
-     * @AcmeAssert\CheckPreviousEntry()
-     * @AcmeAssert\CheckPreviousKanji()
-     * @AcmeAssert\CheckJisho()
+     * @Assert\Length(2, exactMessage="Le mot doit faire exactement {{ limit }} kanjis", groups={"2"})
+     * @AcmeAssert\ContainsKanji(groups={"1"})
+     * @AcmeAssert\CheckPreviousEntry(groups={"3"})
+     * @AcmeAssert\CheckPreviousKanji(groups={"4"})
+     * @AcmeAssert\CheckJisho(groups={"5"})
      */
     private $word;
 
