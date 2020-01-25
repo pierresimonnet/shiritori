@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Kanji Shirotori</h1>
+        {% for message in app.flashes('success') %}
+            <div class="alert success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <div>
+            <h2>Ongoing shiritories</h2>
+            {% for shiritori in shiritories %}
+                <p><a href="{{ path('shiritori', {'id': shiritori.id }) }}">Shiritori {{ shiritori.id }}</a></p>
+            {% endfor %}
+            <h2>Create new shiritori</h2>
+            <a href="{{ path('create_shiritori') }}">New</a>
+        </div>
+    </div>
+{% endblock %}
