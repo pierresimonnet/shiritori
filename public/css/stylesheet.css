@@ -1,3 +1,5 @@
+/* prefixed by https://autoprefixer.github.io (PostCSS: v7.0.26, autoprefixer: v9.7.3) */
+
 html{
     scroll-behavior: smooth;
     height: 100%;
@@ -6,20 +8,32 @@ html{
 *{
     margin: 0;
     padding: 0;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
+}
+
+ul{
+    list-style: none;
 }
 
 body{
     background-color: #d7d7d7;
     height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
-    justify-content: center;
 }
 
 header{
+    margin-top: 4rem;
     text-align: center;
     max-width: 80%;
 }
@@ -35,8 +49,15 @@ header p{
 }
 
 .container{
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     width: 80%;
 }
@@ -46,7 +67,7 @@ header p{
     text-align: center;
 }
 
-.error{
+.validation_error{
     background-color: #ff5d3e;
     padding: .4rem;
 }
@@ -56,11 +77,36 @@ header p{
     padding: .4rem;
 }
 
-.form{
+.form-section{
+    width: 100%;
     margin: 2rem 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+}
+
+.form-section__form{
+    width: 100%;
+}
+
+.form-section__input{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.form-section__row{
+    margin-right: 1rem;
 }
 
 input{
@@ -74,9 +120,21 @@ input:focus{
     outline: none;
 }
 
-input[name='submit']{
+button{
+    padding: .4rem;
+    border: none;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button.submit{
     background-color: #ff4f5a;
     color: white;
+}
+
+.string-section{
+    width: 100%;
 }
 
 .string{
@@ -85,9 +143,23 @@ input[name='submit']{
     scrollbar-width: thin;
     scrollbar-color: rgba(0, 0, 0, 0.76) rgba(0,0,0,0);
     font-size: 1.4rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
     flex-direction: row;
     padding: 1rem;
+}
+
+.string::-webkit-scrollbar{
+    height: 4px;
+    background-color: #aaa;
+}
+
+.string::-webkit-scrollbar-thumb{
+    background: #000;
 }
 
 .string p{
@@ -111,9 +183,10 @@ input[name='submit']{
 footer{
     margin-top: 2rem;
     text-align: center;
+    max-width: 80%;
 }
 
-@media screen and (min-width: 600px){
+@media screen and (min-width: 740px){
     .container{
         width: 60%;
     }
