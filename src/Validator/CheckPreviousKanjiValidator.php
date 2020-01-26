@@ -3,6 +3,7 @@
 namespace App\Validator;
 
 use App\Repository\WordRepository;
+use App\Utils\WordSplit;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
@@ -31,11 +32,11 @@ class CheckPreviousKanjiValidator extends ConstraintValidator
         if (null !== $this->wordRepository->findLastWord($currentShiritori)){
             $previousEntry = $this->wordRepository->findLastWord($currentShiritori)->getWord();
         }
-        $inputSplit = preg_split("//u", $value, -1, PREG_SPLIT_NO_EMPTY);
-        $inputFirstChar = reset($inputSplit);
-        $lastEntrySplit = preg_split("//u", $previousEntry, -1, PREG_SPLIT_NO_EMPTY);
 
-        if($lastEntrySplit && $inputFirstChar !== end($lastEntrySplit)){
+        $inputFirstChar = WordSplit::split($value)['first'];
+        $previousLastChar = WordSplit::split($previousEntry)['last'];
+
+        if($previousLastChar && $inputFirstChar !== $previousLastChar){
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $value)
                 ->addViolation();
