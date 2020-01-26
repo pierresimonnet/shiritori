@@ -26,6 +26,9 @@ class ShiritoriController extends AbstractController
         $newWord = new Word();
         $newWord->setShiritori($shiritori);
 
+        $last = $shiritori->getWords()->last();
+        dump($last);
+
         $form = $this->createForm(WordType::class, $newWord);
         $form->handleRequest($request);
 
@@ -39,7 +42,8 @@ class ShiritoriController extends AbstractController
                     'type' => 'success',
                     'title' => 'valid entry',
                     'success' => $newWord->getWord() . " a bien été ajouté",
-                    'word' => $newWord->getWord()
+                    'word' => $newWord->getWord(),
+                    'count' => $shiritori->getWords()->count(),
                 ];
                 return new JsonResponse($data, 200);
             }

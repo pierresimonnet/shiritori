@@ -15,7 +15,7 @@ class WordType extends AbstractType
         $builder
             ->add('word', TextType::class, [
                 'attr' => [
-                    'placeholder' => "votre mot",
+                    'placeholder' => "Entrez un mot",
                     'autocomplete' => "off",
                 ],
                 'required' => true,

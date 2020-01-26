@@ -8,8 +8,8 @@ const alert = document.createElement('div');
 const postForm = document.querySelector('#post-form')
 const input = document.querySelector('#word_word')
 const button = document.querySelector('button[type=submit]')
-let inputDiv = document.querySelector('.form-section__input')
-let shiritoriId = inputDiv.dataset.shiritoriId
+// Counter
+const counter =  document.querySelector('#counter')
 
 // Scroll String
 const scroll = function(){
@@ -44,16 +44,24 @@ postForm.addEventListener('submit', async function (e) {
             alertSection.innerText = ""
             alertSection.appendChild(alert)
         }else{
-            console.log(responseData.word)
             alert.classList.remove('alert')
             alert.innerText = responseData.success
             alert.classList.add(responseData.type)
             alertSection.innerText = ""
             alertSection.appendChild(alert)
             input.value = ''
+            counter.innerText = responseData.count
+
             let word = document.createElement('p')
+            word.style.background = 'rgba(65,240,133,0.5)'
             word.innerText = responseData.word + " > "
             string.appendChild(word)
+
+            window.setTimeout(function () {
+                alertSection.innerText = ""
+                word.style.removeProperty('background')
+            }, 3000)
+
             scroll()
         }
     }catch (e) {
