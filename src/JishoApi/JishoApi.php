@@ -4,7 +4,7 @@
 namespace App\JishoApi;
 
 
-use PHPUnit\Runner\Exception;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
