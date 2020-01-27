@@ -5,6 +5,7 @@ namespace App\Validator;
 use App\JishoApi\JishoApi;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -24,7 +25,9 @@ class CheckJishoValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint): void
     {
-        /* @var $constraint CheckJisho */
+        if (!$constraint instanceof CheckJisho) {
+            throw new UnexpectedTypeException($constraint, CheckJisho::class);
+        }
 
         if (null === $value || '' === $value) {
             return;

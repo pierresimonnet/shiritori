@@ -4,15 +4,31 @@ help: ## Affiche cette aide
 .PHONY: help
 
 ##
-## PHPStan
+## Clear Cache
 ##
-scan: ## fait un scan phpstan
+clear: ## Clear cache
+	bin/console cache:clear
+.PHONY: clear
+
+##
+## PHPStan Scan
+##
+scan: ## Scan with phpstan
 	vendor/bin/phpstan analyse
 .PHONY: scan
 
 ##
 ## Tests
+## ----
 ##
-test: ## fait les tests
-	bin/phpunit tests
-.PHONY: test
+
+test: unit functional ## Run unit and functional tests
+
+unit: ## Run unit tests
+	bin/phpunit tests --exclude-group functional
+
+functional: ## Run functional tests
+	bin/phpunit tests --group functional
+
+.PHONY: test unit functional
+

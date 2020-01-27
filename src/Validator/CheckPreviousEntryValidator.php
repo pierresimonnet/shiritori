@@ -2,10 +2,12 @@
 
 namespace App\Validator;
 
+use App\Entity\Word;
 use App\Repository\WordRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class CheckPreviousEntryValidator extends ConstraintValidator
 {
@@ -26,22 +28,24 @@ class CheckPreviousEntryValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint): void
     {
-        /* @var $constraint CheckPreviousEntry */
+        if (!$constraint instanceof CheckPreviousEntry) {
+            throw new UnexpectedTypeException($constraint, CheckPreviousEntry::class);
+        }
 
         if (null === $value || '' === $value) {
             return;
         }
 
-        $currentShiritori = $this->context->getObject()->getShiritori();
-        $previousEntry = null;
-        if (null !== $this->wordRepository->findLastWord($currentShiritori)){
-            $previousEntry = $this->wordRepository->findLastWord($currentShiritori)->getWord();
-        }
-
-        if ($value === $previousEntry){
-            $this->context->buildViolation($constraint->message)
-                ->setParameter('{{ value }}', $value)
-                ->addViolation();
+        if($this->context->getObject() instanceof Word){
+            $currentShiritori = $this->context->getObject()->getShiritori();
+            if(null !== $currentShiritori){
+                $previousEntry = $this->wordRepository->findLastWord($currentShiritori)->getWord();
+                if ($value === $previousEntry){
+                    $this->context->buildViolation($constraint->message)
+                        ->setParameter('{{ value }}', $value)
+                        ->addViolation();
+                }
+            }
         }
     }
 }

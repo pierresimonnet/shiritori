@@ -15,4 +15,5 @@ parameters:
     checkGenericClassInNonGenericObjectType: false
     autoload_files:
         - bin/.phpunit/phpunit-7.5-0/vendor/autoload.php
-
+    ignoreErrors:
+        - '#Parameter \#1 [a-zA-Z0-9\\_$]+ of function [a-zA-Z0-9\\_]+ expects [a-zA-Z0-9\\_$|]+, array<int, string>|false given.#'

@@ -6,6 +6,7 @@ use App\Entity\Shiritori;
 use App\Entity\Word;
 use App\Form\WordType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -26,11 +27,18 @@ class ShiritoriController extends AbstractController
         $newWord = new Word();
         $newWord->setShiritori($shiritori);
 
-        $last = $shiritori->getWords()->last();
-        dump($last);
-
         $form = $this->createForm(WordType::class, $newWord);
         $form->handleRequest($request);
+
+        if($request->isXmlHttpRequest() && $form->isSubmitted() && !$form->isValid()){
+            $errors = $this->getErrorsFromForm($form);
+            $data = [
+                'type' => 'validation_error',
+                'title' => 'There was a validation error',
+                'errors' => $errors
+            ];
+            return new JsonResponse($data, 422);
+        }
 
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
@@ -49,16 +57,6 @@ class ShiritoriController extends AbstractController
             }
 
             return $this->redirectToRoute('shiritori', ['id' => $shiritori->getId()]);
-        }
-
-        if($request->isXmlHttpRequest() && $form->isSubmitted() && !$form->isValid()){
-            $errors = $this->getErrorsFromForm($form);
-            $data = [
-                'type' => 'validation_error',
-                'title' => 'There was a validation error',
-                'errors' => $errors
-            ];
-            return new JsonResponse($data, 422);
         }
 
         return $this->render('shiritori/index.html.twig', [
@@ -93,7 +91,9 @@ class ShiritoriController extends AbstractController
     {
         $errors = array();
         foreach ($form->getErrors() as $error) {
-            $errors[] = $error->getMessage();
+            if($error instanceof FormError){
+                $errors[] = $error->getMessage();
+            }
         }
         foreach ($form->all() as $childForm) {
             if ($childForm instanceof FormInterface) {

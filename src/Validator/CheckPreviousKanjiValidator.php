@@ -2,11 +2,13 @@
 
 namespace App\Validator;
 
+use App\Entity\Word;
 use App\Repository\WordRepository;
 use App\Utils\WordSplit;
 use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class CheckPreviousKanjiValidator extends ConstraintValidator
 {
@@ -27,25 +29,29 @@ class CheckPreviousKanjiValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint): void
     {
-        /* @var $constraint CheckPreviousKanji */
+        if (!$constraint instanceof CheckPreviousKanji) {
+            throw new UnexpectedTypeException($constraint, CheckPreviousKanji::class);
+        }
 
         if (null === $value || '' === $value) {
             return;
         }
 
-        $currentShiritori = $this->context->getObject()->getShiritori();
-        $previousEntry = null;
-        if (null !== $this->wordRepository->findLastWord($currentShiritori)){
-            $previousEntry = $this->wordRepository->findLastWord($currentShiritori)->getWord();
-        }
+        if($this->context->getObject() instanceof Word){
+            $currentShiritori = $this->context->getObject()->getShiritori();
+            if(null !== $currentShiritori){
+                $previousEntry = $this->wordRepository->findLastWord($currentShiritori)->getWord();
+                if(null !== $previousEntry){
+                    $inputFirstChar = WordSplit::split($value)['first'];
+                    $previousLastChar = WordSplit::split($previousEntry)['last'];
 
-        $inputFirstChar = WordSplit::split($value)['first'];
-        $previousLastChar = WordSplit::split($previousEntry)['last'];
-
-        if($previousLastChar && $inputFirstChar !== $previousLastChar){
-            $this->context->buildViolation($constraint->message)
-                ->setParameter('{{ value }}', $value)
-                ->addViolation();
+                    if($inputFirstChar !== $previousLastChar){
+                        $this->context->buildViolation($constraint->message)
+                            ->setParameter('{{ value }}', $value)
+                            ->addViolation();
+                    }
+                }
+            }
         }
     }
 }

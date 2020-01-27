@@ -21,6 +21,7 @@ class Shiritori
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Word", mappedBy="shiritori", orphanRemoval=true)
+     * @var Collection|Word[]
      */
     private $words;
 

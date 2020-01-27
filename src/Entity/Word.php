@@ -33,6 +33,7 @@ class Word
     private $word;
 
     /**
+     * @var null|Shiritori
      * @ORM\ManyToOne(targetEntity="App\Entity\Shiritori", inversedBy="words")
      * @ORM\JoinColumn(nullable=false)
      */

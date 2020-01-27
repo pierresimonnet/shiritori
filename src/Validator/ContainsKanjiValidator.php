@@ -4,6 +4,7 @@ namespace App\Validator;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class ContainsKanjiValidator extends ConstraintValidator
 {
@@ -18,7 +19,9 @@ class ContainsKanjiValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint): void
     {
-        /* @var $constraint ContainsKanji */
+        if (!$constraint instanceof ContainsKanji) {
+            throw new UnexpectedTypeException($constraint, ContainsKanji::class);
+        }
 
         if (null === $value || '' === $value) {
             return;

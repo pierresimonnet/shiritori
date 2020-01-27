@@ -5,6 +5,7 @@ namespace App\Tests\Utils;
 
 
 use App\Utils\WordSplit;
+use PHPUnit\Framework\MockObject\Generator;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -23,7 +24,7 @@ class WordSplitTest extends TestCase
         $this->assertSame($split, WordSplit::split($value));
     }
 
-    public function getSplit()
+    public function getSplit(): iterable
     {
         yield ['字', [0 => '字']];
         yield ['漢字', ['first' => '漢', 'last' => '字']];
