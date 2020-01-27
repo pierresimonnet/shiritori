@@ -7,6 +7,10 @@ namespace App\Tests\Utils;
 use App\Utils\WordSplit;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class WordSplitTest
+ * @group unit
+ */
 class WordSplitTest extends TestCase
 {
     /**
@@ -14,7 +18,7 @@ class WordSplitTest extends TestCase
      * @param string $value
      * @param array $split
      */
-    public function testSplit(string $value, array $split)
+    public function testSplit(string $value, array $split): void
     {
         $this->assertSame($split, WordSplit::split($value));
     }

@@ -7,9 +7,16 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 class ContainsKanjiValidator extends ConstraintValidator
 {
+    /**
+     * @var string
+     */
     private $pattern = "/[a-zA-Z0-9０-９あ-んア-ンー。、？！＜＞： 「」（）｛｝≪≫〈〉《》【】『』〔〕［］・\n\r\t\s\(\)　]/u";
 
-    public function validate($value, Constraint $constraint)
+    /**
+     * @param mixed $value
+     * @param Constraint $constraint
+     */
+    public function validate($value, Constraint $constraint): void
     {
         /* @var $constraint ContainsKanji */
 

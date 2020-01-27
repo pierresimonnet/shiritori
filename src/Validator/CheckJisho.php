@@ -9,9 +9,8 @@ use Symfony\Component\Validator\Constraint;
  */
 class CheckJisho extends Constraint
 {
-    /*
-     * Any public properties become valid options for the annotation.
-     * Then, use these in your validator class.
+    /**
+     * @var string
      */
     public $message = 'Le mot "{{ value }}" n\'est pas dans le dictionnaire.';
 }

@@ -5,12 +5,26 @@ namespace App\Validator;
 use App\JishoApi\JishoApi;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class CheckJishoValidator extends ConstraintValidator
 {
-    public function validate($value, Constraint $constraint)
+    /**
+     * @param mixed $value
+     * @param Constraint $constraint
+     * @throws ClientExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
+    public function validate($value, Constraint $constraint): void
     {
-        /* @var $constraint \App\Validator\CheckJisho */
+        /* @var $constraint CheckJisho */
 
         if (null === $value || '' === $value) {
             return;

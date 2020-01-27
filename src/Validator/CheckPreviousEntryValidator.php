@@ -3,6 +3,7 @@
 namespace App\Validator;
 
 use App\Repository\WordRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
@@ -18,7 +19,12 @@ class CheckPreviousEntryValidator extends ConstraintValidator
         $this->wordRepository = $wordRepository;
     }
 
-    public function validate($value, Constraint $constraint)
+    /**
+     * @param mixed $value
+     * @param Constraint $constraint
+     * @throws NonUniqueResultException
+     */
+    public function validate($value, Constraint $constraint): void
     {
         /* @var $constraint CheckPreviousEntry */
 

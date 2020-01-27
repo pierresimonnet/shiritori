@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Shiritori;
 use App\Repository\ShiritoriRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -27,6 +28,7 @@ class HomeController extends AbstractController
 
     /**
      * @Route("/new", name="create_shiritori")
+     * @return RedirectResponse
      */
     public function create(){
         $shiritori = new Shiritori();

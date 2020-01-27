@@ -16,11 +16,13 @@ class Word
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @var int
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @var string
      * @Assert\NotBlank(message="Le champ est vide")
      * @Assert\Length(2, exactMessage="Le mot doit faire exactement {{ limit }} kanjis", groups={"2"})
      * @AcmeAssert\ContainsKanji(groups={"1"})

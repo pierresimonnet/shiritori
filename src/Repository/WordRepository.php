@@ -22,7 +22,7 @@ class WordRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $shiritori
+     * @param Shiritori $shiritori
      * @return Word[] Returns an array of Word objects
      * @throws NonUniqueResultException
      */
