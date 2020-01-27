@@ -4,7 +4,40 @@ help: ## Affiche cette aide
 .PHONY: help
 
 ##
+## Project
+## ----
+##
+## Installation
+## ----
+##
+install: db ## Install and start the project
+.PHONY: install
+
+composer.lock: composer.json
+	composer update
+
+vendor: composer.lock
+	composer install
+
+.env:
+	@if [ -f .env ]; \
+	then\
+		echo ".env.dist file changed. Check your .env file";\
+		touch .env;\
+		exit 1;\
+	else\
+		echo cp .env.dist .env;\
+	  	cp .env.dist .env;\
+	fi
+
+db: .env vendor ## Reset the database
+	-bin/console doctrine:database:create --if-not-exists
+	bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+.PHONY: db
+
+##
 ## Clear Cache
+## ----
 ##
 clear: ## Clear cache
 	bin/console cache:clear
@@ -12,6 +45,7 @@ clear: ## Clear cache
 
 ##
 ## PHPStan Scan
+## ----
 ##
 scan: ## Scan with phpstan
 	vendor/bin/phpstan analyse
