@@ -6,8 +6,12 @@
     ```
     $ make install
     $ symfony server:start
+    # or configure your nginx/apache/...
     ```
-
+Display all available commands for make :
+    ```
+    $ make
+    ```
 ## Contribute 
 1. Fork repository
 ([How to](https://help.github.com/en/github/getting-started-with-github/fork-a-repo))
@@ -33,8 +37,3 @@
     git push -u origin branch
     ```
 7. Open a [pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests)
-
-## Help
-    ```
-    $ make
-    ```
