@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := help
-help: ## list of commands
+help: ## list of available commands
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 .PHONY: help
 
@@ -66,3 +66,16 @@ functional: ## Run functional tests
 
 .PHONY: test unit functional
 
+##
+## (After downloading dart-sass to the root directory)
+## Sass compile
+## ----
+##
+
+watch: ## Watch stylesheetps and recompile when change
+	./dart-sass/sass public/sass/style.scss public/css/style.css --watch
+.PHONY: watch
+
+compile: ## Compile Sass to CSS
+	./dart-sass/sass public/sass/style.scss public/css/style.css
+.PHONY: compile

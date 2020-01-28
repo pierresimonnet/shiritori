@@ -7,6 +7,7 @@
 /var/
 /vendor/
 .idea/
+dart-sass
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
