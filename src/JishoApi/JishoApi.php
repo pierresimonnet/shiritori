@@ -6,10 +6,6 @@ namespace App\JishoApi;
 
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpClient\HttpClient;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
@@ -19,6 +15,10 @@ class JishoApi
      * @var string
      */
     private $value;
+    /**
+     * @var mixed
+     */
+    private $data;
 
     public function __construct(string $value)
     {
@@ -43,22 +43,24 @@ class JishoApi
     }
 
     /**
-     * @return mixed|null
-     * @throws TransportExceptionInterface
-     * @throws ClientExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
+     * @return bool
      */
-    public function getJishoResult()
+    public function getJishoExist()
     {
-        $result = null;
         $valueEncode = urlencode($this->value);
-        $data = $this->callJishoApi($valueEncode);
-        if(!empty($data->toArray()['data'])){
-            $result = $data->toArray()['data'];
+        $response = $this->callJishoApi($valueEncode);
+        if(!empty($response->toArray()['data']) && $response->toArray()['data'][0]['japanese'][0]['word'] === $this->value){
+            $this->data = $response->toArray()['data'][0];
+            return true;
         }
+        return false;
+    }
 
-        return $result;
+    /**
+     * @return mixed
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 }
