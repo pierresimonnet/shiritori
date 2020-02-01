@@ -73,9 +73,9 @@ functional: ## Run functional tests
 ##
 
 watch: ## Watch stylesheetps and recompile when change
-	./dart-sass/sass public/sass/style.scss public/css/style.css --watch
+	./dart-sass/sass assets/css/app.scss public/css/style.css --watch
 .PHONY: watch
 
 compile: ## Compile Sass to CSS
-	./dart-sass/sass public/sass/style.scss public/css/style.css
+	./dart-sass/sass assets/css/app.scss public/css/style.css
 .PHONY: compile

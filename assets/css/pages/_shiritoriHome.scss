@@ -1,0 +1,23 @@
+.shiritori-home{
+  @extend %container;
+}
+
+.card{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border: 1px solid #d1d1d1;
+  box-shadow: 0 2px 20px #aeaeae;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+}
+
+.card-info{
+  margin-right: 1rem;
+}
+
+.btn-new{
+  @include button(#ff4f5a, #fff);
+}

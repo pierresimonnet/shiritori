@@ -2,6 +2,7 @@
 
 namespace App\Validator;
 
+use App\Entity\Shiritori;
 use App\Entity\Word;
 use App\Repository\WordRepository;
 use App\Utils\WordSplit;
@@ -39,7 +40,7 @@ class CheckPreviousKanjiValidator extends ConstraintValidator
 
         if($this->context->getObject() instanceof Word){
             $currentShiritori = $this->context->getObject()->getShiritori();
-            if(null !== $currentShiritori){
+            if(null !== $currentShiritori && $currentShiritori instanceof Shiritori){
                 $previousEntry = $this->wordRepository->findLastWord($currentShiritori)->getWord();
                 if(null !== $previousEntry){
                     $inputFirstChar = WordSplit::split($value)['first'];

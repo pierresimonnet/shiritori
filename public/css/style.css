@@ -1,24 +1,63 @@
-/* prefixed by https://autoprefixer.github.io (PostCSS: v7.0.26, autoprefixer: v9.7.3) */
-html {
-  scroll-behavior: smooth;
-  height: 100%;
+:root {
+  --color: #000;
+  --bg: #d7d7d7;
 }
 
-* {
+/*! minireset.css v0.0.6 | MIT License | github.com/jgthms/minireset.css */
+html, body, p, ol, ul, li, dl, dt, dd, blockquote, figure, fieldset, legend, textarea, pre, iframe, hr, h1, h2, h3, h4, h5, h6 {
   margin: 0;
   padding: 0;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%;
+  font-weight: normal;
 }
 
 ul {
   list-style: none;
 }
 
-body {
-  background-color: #d7d7d7;
-  height: 100%;
+button, input, select, textarea {
+  margin: 0;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+img, video {
+  height: auto;
+  max-width: 100%;
+}
+
+iframe {
+  border: 0;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td, th {
+  padding: 0;
+}
+
+td:not([align]), th:not([align]) {
+  text-align: left;
+}
+
+:root {
+  --container-padding: 20px;
+  --container-width: calc(100vw - var(--container-padding)*2);
+}
+
+.shiritori-home, .shiritori-play, .container {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -29,36 +68,38 @@ body {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  width: var(--container-width);
+  margin: 0 auto;
 }
 
-header {
-  margin: 4rem 0 1rem 0;
+h1 {
+  font-size: 3rem;
+  text-transform: uppercase;
   text-align: center;
-  max-width: 80%;
 }
 
-header p {
-  margin-top: 0.4rem;
+h2 {
+  font-size: 2rem;
 }
 
-.example_kanji {
-  background-color: #ffffff;
-  border-radius: 50%;
-  padding: 0.2rem;
+h3 {
+  font-size: 1.4rem;
 }
 
-.container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  width: 80%;
+@media only screen and (min-width: 768px) {
+  :root {
+    --container-width: 60%;
+  }
+}
+body {
+  font-family: "Arial", sans-serif;
+  font-size: 16px;
+  color: var(--color);
+  background-color: var(--bg);
+}
+
+svg {
+  display: block;
 }
 
 .alert {
@@ -120,17 +161,53 @@ input:focus {
   outline: none;
 }
 
-button {
+button.submit {
   padding: 0.4rem;
   border: none;
-  font-size: 1rem;
-  border-radius: 8px;
   cursor: pointer;
+  background: #ff4f5a;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 1rem;
 }
 
-button.submit {
-  background-color: #ff4f5a;
-  color: white;
+.delete-btn {
+  padding: 0.4rem;
+  border: none;
+  cursor: pointer;
+  background: #bfbfbf;
+  color: #000;
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 30px;
+  opacity: 0.5;
+  border-radius: 14px;
+}
+.delete-btn:hover {
+  opacity: 0.9;
+}
+
+.shiritori-play__header {
+  margin: 4rem 0 1rem 0;
+  text-align: center;
+}
+.shiritori-play__header h1 {
+  font-size: 2rem;
+}
+.shiritori-play__header p {
+  margin-top: 0.4rem;
+}
+
+.shiritori-play__footer {
+  margin-top: 4rem;
+  text-align: center;
+  max-width: 80%;
+}
+
+.example_kanji {
+  background-color: #ffffff;
+  border-radius: 50%;
+  padding: 0.2rem;
 }
 
 .string-section {
@@ -165,21 +242,34 @@ button.submit {
 .string p {
   white-space: nowrap;
 }
-
-footer {
-  margin-top: 4rem;
-  text-align: center;
-  max-width: 80%;
+.string p:after {
+  content: " > ";
 }
 
-footer form {
-  margin-top: 1rem;
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border: 1px solid #d1d1d1;
+  box-shadow: 0 2px 20px #aeaeae;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  padding: 1rem;
 }
 
-@media screen and (min-width: 740px) {
-  .container {
-    width: 60%;
-  }
+.card-info {
+  margin-right: 1rem;
+}
+
+.btn-new {
+  padding: 0.4rem;
+  border: none;
+  cursor: pointer;
+  background: #ff4f5a;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 1rem;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -1,0 +1,39 @@
+// Variables
+// ==================
+// Static variables
+$font: 'Arial', sans-serif;
+// Dynamic variables
+:root{
+  --color: #000;
+  --bg: #d7d7d7;
+}
+
+// Tools
+// ==================
+@import "tools/reset";
+@import "tools/responsive";
+@import "tools/layout";
+
+// Generic
+// ==================
+body{
+  font-family: $font;
+  font-size: 16px;
+  color: var(--color);
+  background-color: var(--bg);
+}
+
+svg{
+  display: block;
+}
+
+// Modules
+// ==================
+@import "modules/header";
+@import "modules/footer";
+@import "modules/form";
+
+// Pages
+// ==================
+@import "pages/shiritoriPlay";
+@import "pages/shiritoriHome";

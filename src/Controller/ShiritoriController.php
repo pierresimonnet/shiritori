@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Shiritori;
 use App\Entity\Word;
 use App\Form\WordType;
+use App\JishoApi\JishoApi;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
@@ -41,6 +42,13 @@ class ShiritoriController extends AbstractController
         }
 
         if($form->isSubmitted() && $form->isValid()){
+            if(null !== $newWord->getWord()){
+                $jisho = new JishoApi($newWord->getWord());
+                $jisho->getJishoExist();
+                $newWord->setReading($jisho->getReading())
+                        ->setSenses($jisho->getSenses());
+            }
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($newWord);
             $em->flush();
@@ -59,7 +67,7 @@ class ShiritoriController extends AbstractController
             return $this->redirectToRoute('shiritori', ['id' => $shiritori->getId()]);
         }
 
-        return $this->render('shiritori/index.html.twig', [
+        return $this->render('shiritori/play.html.twig', [
             'controller_name' => 'ShiritoriController',
             'shiritori' => $shiritori,
             'form' => $form->createView(),

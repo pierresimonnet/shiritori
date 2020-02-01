@@ -25,9 +25,16 @@ class Shiritori
      */
     private $words;
 
+    /**
+     * @ORM\Column(type="datetime")
+     * @var \DateTimeInterface
+     */
+    private $createdAt;
+
     public function __construct()
     {
         $this->words = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
 
     public function getId(): ?int
@@ -62,6 +69,18 @@ class Shiritori
                 $word->setShiritori(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

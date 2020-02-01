@@ -2,6 +2,7 @@
 
 namespace App\Validator;
 
+use App\Entity\Shiritori;
 use App\Entity\Word;
 use App\Repository\WordRepository;
 use Doctrine\ORM\NonUniqueResultException;
@@ -38,7 +39,7 @@ class CheckPreviousEntryValidator extends ConstraintValidator
 
         if($this->context->getObject() instanceof Word){
             $currentShiritori = $this->context->getObject()->getShiritori();
-            if(null !== $currentShiritori){
+            if(null !== $currentShiritori && $currentShiritori instanceof Shiritori){
                 $previousEntry = $this->wordRepository->findLastWord($currentShiritori)->getWord();
                 if ($value === $previousEntry){
                     $this->context->buildViolation($constraint->message)

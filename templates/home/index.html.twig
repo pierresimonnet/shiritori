@@ -1,22 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Hello Shiritori!{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h1>Kanji Shirotori</h1>
-        {% for message in app.flashes('success') %}
-            <div class="alert success">
-                {{ message }}
+<main class="shiritori-home">
+    <h1>Kanji Shiritori</h1>
+    {% for message in app.flashes('success') %}
+        <div class="alert success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div>
+        <h2>Ongoing shiritories</h2>
+        {% for shiritori in shiritories %}
+            <div class="card">
+                <div class="card-info">
+                    <h3><a href="{{ path('shiritori', {'id': shiritori.id }) }}">Shiritori {{ shiritori.id }}</a></h3>
+                    <p>Créé le {{ shiritori.createdAt|date("d/m/Y") }} par [username]</p>
+                    {% set last = shiritori.words|last %}
+                    <p>{{ shiritori.words | length }} mots | Dernier mot : {{ last.word }}</p>
+                </div>
+                {% include 'modules/_deleteform.html.twig' %}
             </div>
         {% endfor %}
-        <div>
-            <h2>Ongoing shiritories</h2>
-            {% for shiritori in shiritories %}
-                <p><a href="{{ path('shiritori', {'id': shiritori.id }) }}">Shiritori {{ shiritori.id }}</a> / {{ shiritori.words | length }} mots</p>
-            {% endfor %}
-            <h2>Create new shiritori</h2>
-            <a href="{{ path('create_shiritori') }}">New</a>
-        </div>
+        <h2>Create new shiritori</h2>
+        <a href="{{ path('create_shiritori') }}" class="btn-new">New</a>
     </div>
+</main>
 {% endblock %}

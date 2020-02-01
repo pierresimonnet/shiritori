@@ -1,0 +1,66 @@
+.shiritori-play{
+  @extend %container;
+}
+
+.shiritori-play__header{
+  margin: 4rem 0 1rem 0;
+  text-align: center;
+
+  h1{
+    font-size: 2rem;
+  }
+
+  p{
+    margin-top: .4rem;
+  }
+}
+
+.shiritori-play__footer{
+  margin-top: 4rem;
+  text-align: center;
+  max-width: 80%;
+}
+
+.example_kanji{
+  background-color: #ffffff;
+  border-radius: 50%;
+  padding: .2rem;
+}
+
+.string-section{
+  width: 100%;
+}
+
+.string{
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.76) rgba(0,0,0,0);
+  font-size: 1.4rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  padding: 1rem;
+}
+
+.string::-webkit-scrollbar{
+  height: 4px;
+  background-color: #aaa;
+}
+
+.string::-webkit-scrollbar-thumb{
+  background: #000;
+}
+
+.string p{
+  white-space: nowrap;
+
+  &:after{
+    content: ' > ';
+
+  }
+}

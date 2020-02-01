@@ -54,7 +54,7 @@ postForm.addEventListener('submit', async function (e) {
 
             let word = document.createElement('p')
             word.style.background = 'rgba(65,240,133,0.5)'
-            word.innerText = responseData.word + " > "
+            word.innerText = responseData.word
             string.appendChild(word)
 
             window.setTimeout(function () {
