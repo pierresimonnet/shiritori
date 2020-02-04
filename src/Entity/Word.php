@@ -24,7 +24,7 @@ class Word
      * @ORM\Column(type="string", length=255)
      * @var string
      * @Assert\NotBlank(message="Le champ est vide")
-     * @Assert\Length(2, exactMessage="Le mot doit faire exactement {{ limit }} kanjis", groups={"2"})
+     * @Assert\Length(2, exactMessage="Le mot doit contenir exactement {{ limit }} kanjis", groups={"2"})
      * @AcmeAssert\ContainsKanji(groups={"1"})
      * @AcmeAssert\CheckPreviousEntry(groups={"3"})
      * @AcmeAssert\CheckPreviousKanji(groups={"4"})

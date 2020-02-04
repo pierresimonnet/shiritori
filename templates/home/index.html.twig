@@ -13,12 +13,12 @@
     <div>
         <h2>Ongoing shiritories</h2>
         {% for shiritori in shiritories %}
-            <div class="card">
+            <div class="card" id="shiritori-{{ shiritori.id }}">
                 <div class="card-info">
                     <h3><a href="{{ path('shiritori', {'id': shiritori.id }) }}">Shiritori {{ shiritori.id }}</a></h3>
                     <p>Créé le {{ shiritori.createdAt|date("d/m/Y") }} par [username]</p>
                     {% set last = shiritori.words|last %}
-                    <p>{{ shiritori.words | length }} mots | Dernier mot : {{ last.word }}</p>
+                    <p>{{ shiritori.words | length }} mots{% if shiritori.words | length > 0 %} | Dernier mot : {{ last.word }}{% endif %}</p>
                 </div>
                 {% include 'modules/_deleteform.html.twig' %}
             </div>
@@ -27,4 +27,7 @@
         <a href="{{ path('create_shiritori') }}" class="btn-new">New</a>
     </div>
 </main>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('js/delete.js') }}"></script>
 {% endblock %}

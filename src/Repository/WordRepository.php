@@ -23,7 +23,7 @@ class WordRepository extends ServiceEntityRepository
 
     /**
      * @param Shiritori $shiritori
-     * @return Word
+     * @return Word|null
      * @throws NonUniqueResultException
      */
     public function findLastWord(Shiritori $shiritori)

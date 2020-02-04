@@ -58,9 +58,15 @@
 
 .string p{
   white-space: nowrap;
+  cursor: pointer;
 
   &:after{
-    content: ' > ';
+    content: '>';
+    margin: 0 6px;
+    color: #000;
+  }
 
+  &:hover{
+    color: orange;
   }
 }

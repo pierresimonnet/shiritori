@@ -41,6 +41,8 @@ class CheckPreviousKanjiValidator extends ConstraintValidator
         if($this->context->getObject() instanceof Word){
             $currentShiritori = $this->context->getObject()->getShiritori();
             if(null !== $currentShiritori && $currentShiritori instanceof Shiritori){
+                if(null === $this->wordRepository->findLastWord($currentShiritori)) return;
+
                 $previousEntry = $this->wordRepository->findLastWord($currentShiritori)->getWord();
                 if(null !== $previousEntry){
                     $inputFirstChar = WordSplit::split($value)['first'];

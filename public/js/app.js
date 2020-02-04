@@ -69,5 +69,5 @@ postForm.addEventListener('submit', async function (e) {
     }
     button.disabled = false
     button.innerText = "Envoyer"
-    return false;
-});
+    return false
+})

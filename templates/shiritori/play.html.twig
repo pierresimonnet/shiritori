@@ -10,19 +10,7 @@
         <p>Ecrivez un mot de <strong>deux kanjis</strong> dont le premier est identique au dernier kanji du mot précédent.</p>
         <p>Exemple : 日<span class="example_kanji">本</span> &#62; <span class="example_kanji">本</span>気</p>
     </div>
-    <section class="form-section" id="form-section">
-        {{ form_start(form, {method: 'POST', action:path('shiritori', {'id': shiritori.id}), attr: {'class':'form-section__form','id':'post-form', 'novalidate': 'novalidate'}}) }}
-        <div class="alert error" id="alert-section">
-            {{ form_errors(form.word) }}
-        </div>
-        <div class="form-section__input" data-shiritori-id="{{ shiritori.id }}">
-            <div class="form-section__row">
-                {{ form_widget(form.word) }}
-            </div>
-            <button type="submit" class="submit">Envoyer</button>
-        </div>
-        {{ form_end(form) }}
-    </section>
+    {% include 'modules/_playform.html.twig' %}
     <section class="string-section" id="string-section">
         <p class="words-counter">Il y a <span id="counter">{{ shiritori.words | length }}</span> mots dans ce shiritori !</p>
         <div class="string" id="string">
@@ -35,7 +23,6 @@
     <div class="shiritori-play__footer">
         <p class="help">Besoin d'aide ? Trouvez un mot sur <a href="https://jisho.org/" target="_blank">Jisho.org</a>.</p>
         <p><em>Become the kanji master !</em></p>
-        {% include 'modules/_deleteform.html.twig' %}
     </div>
 </main>
 {% endblock %}

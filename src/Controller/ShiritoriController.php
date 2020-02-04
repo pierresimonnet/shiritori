@@ -38,6 +38,7 @@ class ShiritoriController extends AbstractController
                 'title' => 'There was a validation error',
                 'errors' => $errors
             ];
+
             return new JsonResponse($data, 422);
         }
 
@@ -61,6 +62,7 @@ class ShiritoriController extends AbstractController
                     'word' => $newWord->getWord(),
                     'count' => $shiritori->getWords()->count(),
                 ];
+
                 return new JsonResponse($data, 200);
             }
 
@@ -75,17 +77,22 @@ class ShiritoriController extends AbstractController
     }
 
     /**
-     * @Route("/delete/{id}", name="delete_shiritori", methods={"DELETE"})
+     * @Route("/delete/{id}", name="delete_shiritori", methods="POST")
      * @param Shiritori $shiritori
      * @param Request $request
-     * @return RedirectResponse
+     * @return Response|RedirectResponse
      */
     public function delete(Shiritori $shiritori, Request $request){
         if($this->isCsrfTokenValid('delete', $request->get('_token'))){
             $em = $this->getDoctrine()->getManager();
             $em->remove($shiritori);
             $em->flush();
-            $this->addFlash('success', "Le shiritori a bien été supprimé");
+
+            if($request->isXmlHttpRequest()){
+                return new Response(null, 204);
+            }else{
+                $this->addFlash('success', "Le shiritori a bien été supprimé");
+            }
         }
 
         return $this->redirectToRoute('home');
@@ -98,11 +105,13 @@ class ShiritoriController extends AbstractController
     private function getErrorsFromForm(FormInterface $form)
     {
         $errors = array();
+
         foreach ($form->getErrors() as $error) {
             if($error instanceof FormError){
                 $errors[] = $error->getMessage();
             }
         }
+
         foreach ($form->all() as $childForm) {
             if ($childForm instanceof FormInterface) {
                 if ($childErrors = $this->getErrorsFromForm($childForm)) {
@@ -110,6 +119,7 @@ class ShiritoriController extends AbstractController
                 }
             }
         }
+
         return $errors;
     }
 }

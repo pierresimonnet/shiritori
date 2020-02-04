@@ -3,8 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Shiritori;
-use App\Entity\Word;
-use App\JishoApi\JishoApi;
 use App\Repository\ShiritoriRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -35,11 +33,7 @@ class HomeController extends AbstractController
     public function create(){
         $shiritori = new Shiritori();
 
-        $starter = new Word();
-        $starter->setWord('日本')->setShiritori($shiritori);
-
         $em = $this->getDoctrine()->getManager();
-        $em->persist($starter);
         $em->persist($shiritori);
         $em->flush();
 

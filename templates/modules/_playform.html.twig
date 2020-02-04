@@ -1,0 +1,13 @@
+<section class="form-section" id="form-section">
+    {{ form_start(form, {method: 'POST', action:path('shiritori', {'id': shiritori.id}), attr: {'class':'form-section__form','id':'post-form', 'novalidate': 'novalidate'}}) }}
+    <div class="alert error" id="alert-section">
+        {{ form_errors(form.word) }}
+    </div>
+    <div class="form-section__input" data-shiritori-id="{{ shiritori.id }}">
+        <div class="form-section__row">
+            {{ form_widget(form.word) }}
+        </div>
+        <button type="submit" class="submit">Envoyer</button>
+    </div>
+    {{ form_end(form) }}
+</section>
