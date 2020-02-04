@@ -252,6 +252,16 @@ button.submit {
   color: orange;
 }
 
+.active {
+  color: #ff4f5a;
+}
+
+.info-active {
+  background: #ff4f5a;
+  padding: 0.4rem;
+  cursor: pointer;
+}
+
 .card {
   display: flex;
   align-items: center;

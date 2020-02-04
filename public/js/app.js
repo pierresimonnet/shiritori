@@ -70,4 +70,42 @@ postForm.addEventListener('submit', async function (e) {
     button.disabled = false
     button.innerText = "Envoyer"
     return false
-})
+}, false)
+
+let words = document.getElementsByClassName('shiritori-word')
+const info = document.getElementById('shiritori-word__info')
+info.innerText = "Cliquez sur un mot pour voir sa lecture et sa définition"
+
+async function getData(wordId) {
+    try {
+        let response = await fetch("word/"+ wordId, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+        })
+        let responseData = await response.json()
+        return info.innerText = 'reading : ' + responseData.reading + ' | sense : ' + responseData.sense
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+for (let i = 0; i < words.length; i++){
+    let wordId = words[i].dataset.wordId
+    words[i].addEventListener('click', function (e) {
+        if(words[i].classList.contains('active')) return false
+
+        info.innerText = "loading..."
+        if (string.querySelector('.active')) string.querySelector('.active').classList.remove('active')
+        words[i].classList.add('active')
+        info.classList.add('info-active')
+        getData(wordId).then(r => console.log('data ok'))
+    }, false)
+
+    info.addEventListener('click', function (e) {
+        if (string.querySelector('.active')) string.querySelector('.active').classList.remove('active')
+        info.classList.remove('info-active')
+        info.innerText = 'Cliquez sur un mot pour voir sa lecture et sa définition'
+    }, false)
+}

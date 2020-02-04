@@ -122,4 +122,19 @@ class ShiritoriController extends AbstractController
 
         return $errors;
     }
+
+    /**
+     * @Route("/shiritori/word/{id}", name="word-info", methods="GET")
+     * @param Word $word
+     * @return JsonResponse
+     */
+    public function getWordInfo(Word $word)
+    {
+        $data = [
+            'reading' => $word->getReading(),
+            'sense' => $word->getSenses()
+        ];
+
+        return new JsonResponse($data, 200);
+    }
 }

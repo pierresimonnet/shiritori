@@ -15,10 +15,10 @@
         <p class="words-counter">Il y a <span id="counter">{{ shiritori.words | length }}</span> mots dans ce shiritori !</p>
         <div class="string" id="string">
             {% for word in shiritori.words %}
-                <p id="{{ word.id }}">{{ word.word }}</p>
+                <p id="{{ word.id }}" class="shiritori-word" data-word-id="{{ word.id }}">{{ word.word }}</p>
             {% endfor %}
         </div>
-        <p>Cliquez sur un mot pour voir ses informations.</p>
+        <div id="shiritori-word__info"></div>
     </section>
     <div class="shiritori-play__footer">
         <p class="help">Besoin d'aide ? Trouvez un mot sur <a href="https://jisho.org/" target="_blank">Jisho.org</a>.</p>
