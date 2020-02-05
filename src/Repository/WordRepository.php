@@ -44,7 +44,7 @@ class WordRepository extends ServiceEntityRepository
      * @return Word|null
      * @throws NonUniqueResultException
      */
-    public function findOneByWord($value, $shiritori): ?Word
+    public function findOneByWordAndShiritori($value, $shiritori): ?Word
     {
         return $this->createQueryBuilder('w')
             ->andWhere('w.word = :val')

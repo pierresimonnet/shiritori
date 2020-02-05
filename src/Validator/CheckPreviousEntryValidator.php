@@ -40,7 +40,7 @@ class CheckPreviousEntryValidator extends ConstraintValidator
         if($this->context->getObject() instanceof Word){
             $shiritori = $this->context->getObject()->getShiritori();
             if(null !== $shiritori && $shiritori instanceof Shiritori) {
-                if ($this->wordRepository->findOneByWord($value, $shiritori)) {
+                if ($this->wordRepository->findOneByWordAndShiritori($value, $shiritori)) {
                     $this->context->buildViolation($constraint->message)
                         ->setParameter('{{ value }}', $value)
                         ->addViolation();

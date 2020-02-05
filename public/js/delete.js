@@ -15,7 +15,7 @@ for(let i = 0; i < deleteForms.length; i++){
                     body: data
                 })
                 console.log("deleted")
-                deleteForms[0].parentElement.remove()
+                deleteForms[i].parentElement.remove()
             }catch (e) {
                 console.error(e)
             }
