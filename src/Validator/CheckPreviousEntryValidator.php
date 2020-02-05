@@ -38,10 +38,13 @@ class CheckPreviousEntryValidator extends ConstraintValidator
         }
 
         if($this->context->getObject() instanceof Word){
-            if ($this->wordRepository->findOneByWord($value)){
-                $this->context->buildViolation($constraint->message)
-                    ->setParameter('{{ value }}', $value)
-                    ->addViolation();
+            $shiritori = $this->context->getObject()->getShiritori();
+            if(null !== $shiritori && $shiritori instanceof Shiritori) {
+                if ($this->wordRepository->findOneByWord($value, $shiritori)) {
+                    $this->context->buildViolation($constraint->message)
+                        ->setParameter('{{ value }}', $value)
+                        ->addViolation();
+                }
             }
         }
     }
