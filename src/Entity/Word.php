@@ -26,8 +26,8 @@ class Word
      * @Assert\NotBlank(message="Le champ est vide")
      * @Assert\Length(2, exactMessage="Le mot doit contenir exactement {{ limit }} kanjis", groups={"2"})
      * @AcmeAssert\ContainsKanji(groups={"1"})
-     * @AcmeAssert\CheckPreviousEntry(groups={"3"})
-     * @AcmeAssert\CheckPreviousKanji(groups={"4"})
+     * @AcmeAssert\CheckPreviousEntry(groups={"4"})
+     * @AcmeAssert\CheckPreviousKanji(groups={"3"})
      * @AcmeAssert\CheckJisho(groups={"5"})
      */
     private $word;

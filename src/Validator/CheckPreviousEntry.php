@@ -12,5 +12,5 @@ class CheckPreviousEntry extends Constraint
     /**
      * @var string
      */
-    public $message = '"{{ value }}" est identique en mot précédent.';
+    public $message = '"{{ value }}" a déjà été utilisé.';
 }

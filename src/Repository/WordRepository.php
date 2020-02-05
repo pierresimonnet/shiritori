@@ -37,6 +37,22 @@ class WordRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
             ;
     }
+
+    /**
+     * @param string $value
+     * @return Word|null
+     * @throws NonUniqueResultException
+     */
+    public function findOneByWord($value): ?Word
+    {
+        return $this->createQueryBuilder('w')
+            ->andWhere('w.word = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
     // /**
     //  * @return Word[] Returns an array of Word objects
     //  */
@@ -50,18 +66,6 @@ class WordRepository extends ServiceEntityRepository
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Word
-    {
-        return $this->createQueryBuilder('w')
-            ->andWhere('w.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
         ;
     }
     */
