@@ -58,8 +58,9 @@ class ShiritoriController extends AbstractController
                 $data = [
                     'type' => 'success',
                     'title' => 'valid entry',
-                    'success' => $newWord->getWord() . " a bien été ajouté",
+                    'success' => $newWord->getWord() . " a bien été ajouté.",
                     'word' => $newWord->getWord(),
+                    'id' => $newWord->getId(),
                     'count' => $shiritori->getWords()->count(),
                 ];
 
