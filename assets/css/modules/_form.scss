@@ -61,6 +61,7 @@ input:focus{
 
 button.submit{
   @include button(#ff4f5a, #fff);
+  min-width: 100px;
 }
 
 .delete-btn{

@@ -10,6 +10,10 @@ const input = document.querySelector('#word_word')
 const button = document.querySelector('button[type=submit]')
 // Counter
 const counter =  document.querySelector('#counter')
+// Loader (button)
+let span = document.createElement('span')
+span.className = 'btn-loader'
+span.innerText = "loading"
 
 // Scroll String
 const scroll = function(){
@@ -26,7 +30,8 @@ window.addEventListener('load', function(){
 postForm.addEventListener('submit', async function (e) {
     e.preventDefault();
     button.disabled = true
-    button.innerText = "loading..."
+    button.innerText = ''
+    button.appendChild(span)
     let data = new FormData(this);
     try{
         let response = await fetch(this.getAttribute('action'), {
@@ -102,8 +107,8 @@ string.addEventListener('click', function (e) {
     if(e.target && e.target.nodeName === 'P'){
         let wordId = e.target.dataset.wordId
         if(e.target.classList.contains('active')) return false
-
-        info.innerText = "loading..."
+        info.innerHTML = ''
+        info.appendChild(span)
         if (string.querySelector('.active')) string.querySelector('.active').classList.remove('active')
         e.target.classList.add('active')
         info.classList.add('info-active')

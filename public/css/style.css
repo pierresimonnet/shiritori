@@ -169,6 +169,7 @@ button.submit {
   color: #fff;
   border-radius: 8px;
   font-size: 1rem;
+  min-width: 100px;
 }
 
 .delete-btn {
@@ -187,6 +188,30 @@ button.submit {
   opacity: 0.9;
 }
 
+.btn-loader {
+  position: relative;
+}
+
+.btn-loader::after {
+  content: "";
+  position: absolute;
+  animation: Dots 2s cubic-bezier(0, 0.39, 1, 0.68) infinite;
+}
+
+@keyframes Dots {
+  0% {
+    content: "";
+  }
+  33% {
+    content: ".";
+  }
+  66% {
+    content: "..";
+  }
+  100% {
+    content: "...";
+  }
+}
 .shiritori-play__header {
   margin: 4rem 0 1rem 0;
   text-align: center;
@@ -249,7 +274,7 @@ button.submit {
   color: #000;
 }
 .string p:hover {
-  color: orange;
+  color: #ff4f5a;
 }
 
 .active {
