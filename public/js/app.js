@@ -14,6 +14,12 @@ const counter =  document.querySelector('#counter')
 let span = document.createElement('span')
 span.className = 'btn-loader'
 span.innerText = "loading"
+// Loader (dictionary)
+let dicLoader = document.createElement('div')
+dicLoader.className = 'book-loader'
+dicLoader.innerHTML = "<div class='page'></div><div class='page'></div><div class='page'></div>"
+let dicLabel = document.createElement('p')
+dicLabel.innerText = "Checking the dictionary"
 
 // Scroll String
 const scroll = function(){
@@ -29,7 +35,11 @@ window.addEventListener('load', function(){
 // POST NEW WORD
 postForm.addEventListener('submit', async function (e) {
     e.preventDefault();
+    alertSection.appendChild(dicLoader)
+    alertSection.appendChild(dicLabel)
     button.disabled = true
+    button.style.background = '#fff'
+    button.style.color = '#000'
     button.innerText = ''
     button.appendChild(span)
     let data = new FormData(this);
@@ -86,6 +96,8 @@ postForm.addEventListener('submit', async function (e) {
         console.error(e)
     }
     button.disabled = false
+    button.style.background = '#ff5d3e'
+    button.style.color = '#fff'
     button.innerText = "Envoyer"
     return false
 }, false)
