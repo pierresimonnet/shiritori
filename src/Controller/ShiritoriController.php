@@ -6,6 +6,8 @@ use App\Entity\Shiritori;
 use App\Entity\Word;
 use App\Form\WordType;
 use App\JishoApi\JishoApi;
+use App\Repository\WordRepository;
+use App\Utils\WordSplit;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
@@ -22,8 +24,9 @@ class ShiritoriController extends AbstractController
      * @param Shiritori $shiritori
      * @param Request $request
      * @return Response
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function index(Shiritori $shiritori, Request $request)
+    public function index(Shiritori $shiritori, Request $request, WordRepository $wordRepository)
     {
         $newWord = new Word();
         $newWord->setShiritori($shiritori);
@@ -54,6 +57,28 @@ class ShiritoriController extends AbstractController
             $em->persist($newWord);
             $em->flush();
 
+            $last = WordSplit::split($newWord->getWord())['last'];
+            $reponse = new JishoApi($last);
+            $reponse->getJishoExist();
+            $next = [];
+            foreach ($reponse->getAllData() as $words){
+                if(count(WordSplit::split($words['japanese'][0]['word'])) === 2){
+                    $first = WordSplit::split($words['japanese'][0]['word'])['first'];
+                    if($first === $last && mb_strlen($words['japanese'][0]['word']) === 2 && !$wordRepository->findOneByWordAndShiritori($words['japanese'][0]['word'], $shiritori)) $next[] = $words;
+                }
+            }
+            $nextWord = $next[0];
+            if($nextWord) {
+                $appWord = new Word();
+                $appWord->setWord($nextWord['japanese'][0]['word']);
+                $appWord->setReading($nextWord['japanese'][0]['reading']);
+                $appWord->setSenses($nextWord['senses'][0]['english_definitions']);
+                $appWord->setShiritori($shiritori);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($appWord);
+                $em->flush();
+            }
+
             if($request->isXmlHttpRequest()){
                 $data = [
                     'type' => 'success',
@@ -61,6 +86,8 @@ class ShiritoriController extends AbstractController
                     'success' => $newWord->getWord() . " a bien été ajouté.",
                     'word' => $newWord->getWord(),
                     'id' => $newWord->getId(),
+                    'next' => $appWord->getWord(),
+                    'nextId' => $appWord->getId(),
                     'count' => $shiritori->getWords()->count(),
                 ];
 

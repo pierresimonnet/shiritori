@@ -30,6 +30,11 @@ class JishoApi
      */
     private $senses;
 
+    /**
+     * @var mixed
+     */
+    private $allData;
+
     public function __construct(string $value)
     {
         $this->value = $value;
@@ -63,17 +68,28 @@ class JishoApi
             $this->data = $response->toArray()['data'][0];
             $this->reading = $response->toArray()['data'][0]['japanese'][0]['reading'];
             $this->senses = $response->toArray()['data'][0]['senses'][0]['english_definitions'];
+            $this->allData = $response->toArray()['data'];
             return true;
         }
         return false;
     }
 
     /**
+     * Return only the first item
      * @return mixed
      */
     public function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * Return all the items
+     * @return mixed
+     */
+    public function getAllData()
+    {
+        return $this->allData;
     }
 
     /**

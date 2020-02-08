@@ -65,6 +65,16 @@ postForm.addEventListener('submit', async function (e) {
             word.innerText = responseData.word
             string.appendChild(word)
 
+            if(responseData.next) {
+                let next = document.createElement('p')
+                next.style.background = 'rgba(54,146,240,0.5)'
+                next.id = responseData.nextId
+                next.className = "shiritori-word app-word"
+                next.setAttribute('data-word-id', responseData.nextId)
+                next.innerText = responseData.next
+                string.appendChild(next)
+            }
+
             window.setTimeout(function () {
                 alertSection.innerText = ""
                 word.style.removeProperty('background')
@@ -84,7 +94,9 @@ postForm.addEventListener('submit', async function (e) {
 let words = document.getElementsByClassName('shiritori-word')
 // Word info
 const info = document.getElementById('shiritori-word__info')
-info.innerText = "Cliquez sur un mot pour voir sa lecture et sa définition"
+let infoPara = document.createElement('p')
+info.appendChild(infoPara)
+infoPara.innerText = "Cliquez sur un mot pour voir sa lecture et sa définition"
 
 // GET WORD INFO
 async function getData(wordId) {
@@ -96,7 +108,7 @@ async function getData(wordId) {
             },
         })
         let responseData = await response.json()
-        return info.innerText = 'reading : ' + responseData.reading + ' | sense : ' + responseData.sense
+        return infoPara.innerText = 'reading : ' + responseData.reading + ' | sense : ' + responseData.sense
     } catch (e) {
         console.error(e)
     }
@@ -107,8 +119,8 @@ string.addEventListener('click', function (e) {
     if(e.target && e.target.nodeName === 'P'){
         let wordId = e.target.dataset.wordId
         if(e.target.classList.contains('active')) return false
-        info.innerHTML = ''
-        info.appendChild(span)
+        infoPara.innerText = ''
+        infoPara.appendChild(span)
         if (string.querySelector('.active')) string.querySelector('.active').classList.remove('active')
         e.target.classList.add('active')
         info.classList.add('info-active')
@@ -120,5 +132,5 @@ string.addEventListener('click', function (e) {
 info.addEventListener('click', function (e) {
     if (string.querySelector('.active')) string.querySelector('.active').classList.remove('active')
     info.classList.remove('info-active')
-    info.innerText = 'Cliquez sur un mot pour voir sa lecture et sa définition'
+    infoPara.innerText = 'Cliquez sur un mot pour voir sa lecture et sa définition'
 }, false)
