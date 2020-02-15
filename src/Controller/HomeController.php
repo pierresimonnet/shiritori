@@ -27,12 +27,14 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="create_shiritori")
+     * @Route("/new/{type}", name="create_shiritori")
+     * @param $type
      * @return RedirectResponse
      */
-    public function create(){
+    public function create(string $type){
         $shiritori = new Shiritori();
 
+        $shiritori->setType($type);
         $em = $this->getDoctrine()->getManager();
         $em->persist($shiritori);
         $em->flush();

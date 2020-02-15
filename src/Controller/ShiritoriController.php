@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ShiritoriController extends AbstractController
 {
     /**
-     * @Route("/shiritori/{id}", name="shiritori")
+     * @Route("/shiritori/{id<\d+>}", name="shiritori")
      * @param Shiritori $shiritori
      * @param Request $request
      * @return Response
@@ -57,26 +57,28 @@ class ShiritoriController extends AbstractController
             $em->persist($newWord);
             $em->flush();
 
-            $last = WordSplit::split($newWord->getWord())['last'];
-            $reponse = new JishoApi($last);
-            $reponse->getJishoExist();
-            $next = [];
-            foreach ($reponse->getAllData() as $words){
-                if(count(WordSplit::split($words['japanese'][0]['word'])) === 2){
-                    $first = WordSplit::split($words['japanese'][0]['word'])['first'];
-                    if($first === $last && mb_strlen($words['japanese'][0]['word']) === 2 && !$wordRepository->findOneByWordAndShiritori($words['japanese'][0]['word'], $shiritori)) $next[] = $words;
+            if($shiritori->getType() === "compete"){
+                $last = WordSplit::split($newWord->getWord())['last'];
+                $reponse = new JishoApi($last);
+                $reponse->getJishoExist();
+                $next = [];
+                foreach ($reponse->getAllData() as $words){
+                    if(count(WordSplit::split($words['japanese'][0]['word'])) === 2){
+                        $first = WordSplit::split($words['japanese'][0]['word'])['first'];
+                        if($first === $last && mb_strlen($words['japanese'][0]['word']) === 2 && !$wordRepository->findOneByWordAndShiritori($words['japanese'][0]['word'], $shiritori)) $next[] = $words;
+                    }
                 }
-            }
-            $nextWord = $next[0];
-            if($nextWord) {
-                $appWord = new Word();
-                $appWord->setWord($nextWord['japanese'][0]['word']);
-                $appWord->setReading($nextWord['japanese'][0]['reading']);
-                $appWord->setSenses($nextWord['senses'][0]['english_definitions']);
-                $appWord->setShiritori($shiritori);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($appWord);
-                $em->flush();
+                $nextWord = $next[0];
+                if($nextWord) {
+                    $appWord = new Word();
+                    $appWord->setWord($nextWord['japanese'][0]['word']);
+                    $appWord->setReading($nextWord['japanese'][0]['reading']);
+                    $appWord->setSenses($nextWord['senses'][0]['english_definitions']);
+                    $appWord->setShiritori($shiritori);
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($appWord);
+                    $em->flush();
+                }
             }
 
             if($request->isXmlHttpRequest()){
@@ -86,10 +88,13 @@ class ShiritoriController extends AbstractController
                     'success' => $newWord->getWord() . " a bien été ajouté.",
                     'word' => $newWord->getWord(),
                     'id' => $newWord->getId(),
-                    'next' => $appWord->getWord(),
-                    'nextId' => $appWord->getId(),
                     'count' => $shiritori->getWords()->count(),
                 ];
+
+                if($shiritori->getType() === "compete"){
+                    $data['next'] = $appWord->getWord();
+                    $data['nextId'] = $appWord->getId();
+                }
 
                 return new JsonResponse($data, 200);
             }
@@ -105,7 +110,7 @@ class ShiritoriController extends AbstractController
     }
 
     /**
-     * @Route("/delete/{id}", name="delete_shiritori", methods="POST")
+     * @Route("/delete/{id<\d+>}", name="delete_shiritori", methods="POST")
      * @param Shiritori $shiritori
      * @param Request $request
      * @return Response|RedirectResponse
@@ -152,7 +157,7 @@ class ShiritoriController extends AbstractController
     }
 
     /**
-     * @Route("/shiritori/word/{id}", name="word-info", methods="GET")
+     * @Route("/shiritori/word/{id<\d+>}", name="word-info", methods="GET")
      * @param Word $word
      * @return JsonResponse
      */

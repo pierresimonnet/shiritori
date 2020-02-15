@@ -31,6 +31,12 @@ class Shiritori
      */
     private $createdAt;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @var string
+     */
+    private $type;
+
     public function __construct()
     {
         $this->words = new ArrayCollection();
@@ -81,6 +87,18 @@ class Shiritori
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

@@ -24,7 +24,8 @@
             </div>
         {% endfor %}
         <h2>Create new shiritori</h2>
-        <a href="{{ path('create_shiritori') }}" class="btn-new">New</a>
+        <a href="{{ path('create_shiritori', {'type': 'training' }) }}" class="btn-new">Training</a>
+        <a href="{{ path('create_shiritori', {'type': 'compete' }) }}" class="btn-new">Compete</a>
     </div>
 </main>
 {% endblock %}
